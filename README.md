@@ -1,6 +1,4 @@
-# Weighted KNN_air_pollution
-a weighted KNN model for air pollution data
+# Weighted KNN for air pollution prediction
+Two models are built: KNN with time and space and KNN adding weather factors. 
 
-##KNN-time and space
-
-##KNN-adding weather factors 
+data source
