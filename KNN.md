@@ -1,18 +1,43 @@
 ---
-title: "Weighted KNN for air pollution data"
+title: "KNN for air pollution data"
 author: "yingzhi"
 ---
-Weighted k-Nearest Neighbor is used to model the air pollution data. PM2.5 is predicted with the k nearest training set vectors (according to Minkowski distance). Kernel functions are used to weight the neighbors according to their distances.
 
 ##Step 1: Preprocessing
 UMT_time is converted to timestamp(POSIXct). Also, subsetting by time and space can be done for further analysis.
-```{r preprocess}
+
+```r
 #import the datase
 total_data<-read.csv('./data/airdata.csv', encoding = 'UTF-8')
 #convert UMT_time to timestamp
 total_data$UMT_time<-as.numeric(as.POSIXct(as.character(total_data$UMT_time), format = "%Y%m%d%H%M%S"))
 #convert to numeriec
 total_data[,c(6:13,15,16)]<-sapply(total_data[,c(6:13,15,16)] , function(x){as.numeric(as.character(x))})
+```
+
+```
+## Warning in FUN(X[[i]], ...): NAs introduced by coercion
+
+## Warning in FUN(X[[i]], ...): NAs introduced by coercion
+
+## Warning in FUN(X[[i]], ...): NAs introduced by coercion
+
+## Warning in FUN(X[[i]], ...): NAs introduced by coercion
+
+## Warning in FUN(X[[i]], ...): NAs introduced by coercion
+
+## Warning in FUN(X[[i]], ...): NAs introduced by coercion
+
+## Warning in FUN(X[[i]], ...): NAs introduced by coercion
+
+## Warning in FUN(X[[i]], ...): NAs introduced by coercion
+
+## Warning in FUN(X[[i]], ...): NAs introduced by coercion
+
+## Warning in FUN(X[[i]], ...): NAs introduced by coercion
+```
+
+```r
 #subset
 subarea_data<-total_data[total_data$Latitude>35&total_data$Latitude<40&total_data$Longitude>115&total_data$Longitude<120,]
 week_data<-total_data[total_data$UMT_time>=as.numeric(as.POSIXct("20141224000000", format = "%Y%m%d%H%M%S"))&total_data$UMT_time<as.numeric(as.POSIXct("20141231000000", format = "%Y%m%d%H%M%S")),]
@@ -22,9 +47,9 @@ subarea_month_data<-subarea_data[subarea_data$UMT_time>=as.numeric(as.POSIXct("2
 ```
 
 ##Step 2: Build KNN
-First, we only consider three features: *Longitude*, *Latitude* and *UMT_time*.  The goal is to predict PM2.5 with data at least 24 hours ago. Also, please notice that we only get data in  limited locations in China(1000+ monitor points).
-**Step2.1:** Some configurations are needed. Basically, these are parameters that may affect the performance of the model(Explained later). So this model can also serve a smooth algorithm by space and time.
-```{r config}
+**Step2.1:** Some configurations are needed. Basically, these are parameters that may affect the performance of the model(Explained later).
+
+```r
 title<-'KNN: one-week data'   #this is for the output
 data<-week_data
 distance<-2
@@ -35,10 +60,8 @@ kernel_candidate<-c("rectangular", "triangular", "epanechnikov", "cos", "inv", "
 kmax<-7
 ```
 
-**Step2.2:** Remove NA values and set weights.  
-KNN uses Minkowski distance to compute the distance of two feature vectors. To eliminate the influence of measuring unit and to reflect the relative importance of one feature to another in a feature vector, a weight is assigned to each feature in the vector. *L2T_weight* is the weight ratio of *Longitude* and *Latitude* to *UMT_time*. This parameter is key to the performance of KNN.
-
-```{r preprocess}
+**Step2.2:** Remove NA values and set weights. L2T_weight
+```
 #remove NA values
 data<-data[!is.na(data$UMT_time)&!is.na(data$Longitude)&!is.na(data$Latitude)&!is.na(data$PM2.5),]
 #add weight to Longitude, Latitude and UMT_time
@@ -46,13 +69,12 @@ data$Latitude<-L2T_weight*data$Latitude
 data$Longitude<-L2T_weight*data$Longitude
 ```
 
-**Step2.3:** Prepare train, test and build dataset.
-* Train dataset is used to train the best KNN.
-* Build dataset is used as training vectors to build the best KNN.
-* Test dataset is used to test the best KNN.
-Data of *max(UMT_time)* is extracted as test dataset and data with *UMT_time* at least 24 hours before *max(UMT_time)* is choosing as build dataset.
-```{r preprocess}
+```
+#prepare train, test(choose the latest day layer) and build(24h before test data's time)
 size<-dim(data)[1]
+# test_index<-sample(1:size, size = min(round(size/5),2000), replace = FALSE, prob = rep(1/size, size))
+# train<-data[-test_index,]
+# test<-data[test_index,]
 max_timestamp = max(data$UMT_time)
 train<-data[data$UMT_time != max_timestamp,]
 test<-data[data$UMT_time == max_timestamp,]
@@ -93,9 +115,14 @@ output<-function(){
   #legend('topleft', c('True value','Fitted value'), col = c(1,4), lty = c(1,2),          merge = TRUE, cex = 0.8, xpd = TRUE)
   }
   
-```{r code}
+
+```r
 #output()
 head(test)
+```
+
+```
+## Error in head(test): object 'test' not found
 ```
 
 #Use another dataset to test
