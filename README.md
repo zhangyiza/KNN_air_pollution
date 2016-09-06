@@ -7,7 +7,7 @@ Two models are built
 You can refer to `KNN.html` to see the building and results of the models.
 
 ## Data
-The original data comes from Center for Geographic Analysis Dataverse of Harvard University, including hourly air pollution data(PM2.5, PM10, O3,NO2, SO2, CO) and weather data(Temperature, DewPoint, Pressure, Humidity, Wind) of 1372 monitor locations in China in 2014.
+The raw data comes from Center for Geographic Analysis Dataverse of Harvard University, including hourly air pollution data(PM2.5, PM10, O3,NO2, SO2, CO) and weather data(Temperature, DewPoint, Pressure, Humidity, Wind) of 1372 monitor locations in China in 2014.
 
 Download [here](http://aqi.cga.harvard.edu/china/about/).
 
