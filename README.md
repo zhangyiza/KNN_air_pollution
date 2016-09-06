@@ -1,4 +1,5 @@
 # Weighted KNN for air pollution prediction
+This predicts PM2.5 in different areas of China with weighted K-NearestNeighbor.  
 Two models are built
 * Weighted KNN with feature vector = [time, longitude and latitude]
 * Weighted KNN adding weather factors, with feature vector = [time, longitude, latitude, Temperature, Pressure, Humidity]
