@@ -12,6 +12,6 @@ The raw data comes from Center for Geographic Analysis Dataverse of Harvard Univ
 Download [here](http://aqi.cga.harvard.edu/china/about/).
 
 ## Reference
-[1] `ChinaMap, 2014, "China AQI, Monthly Data Archive", http://dx.doi.org/10.7910/DVN/24826, Harvard Dataverse, V12`.
+[1] *ChinaMap, 2014, "China AQI, Monthly Data Archive", http://dx.doi.org/10.7910/DVN/24826, Harvard Dataverse, V12*
 
 
